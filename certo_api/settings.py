@@ -37,6 +37,11 @@ INSTALLED_APPS = [
 
     # External Apps
     'account.apps.AccountConfig',
+    'home.apps.HomeConfig',
+
+    'rest_framework',
+    'django_cleanup.apps.CleanupConfig',
+
 ]
 
 MIDDLEWARE = [

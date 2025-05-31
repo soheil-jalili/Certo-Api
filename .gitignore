@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdm.toml
+
+# Env
+.env
+.venv/
+env/
+venv/
+ENV/
+*.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Django
+db.sqlite3
+*.log
+media/
+staticfiles/
+local_settings.py
+
+# Migrations (optional, if you don’t want them tracked)
+**/migrations/**
+
+# Pytest / coverage
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pycharm
+.idea/
+
+# pip tools
+*.lock

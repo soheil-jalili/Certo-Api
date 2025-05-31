@@ -35,7 +35,19 @@ class Insights(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='insights/images/')
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):
         return self.title
+
+    def save(
+            self,
+            *args, **kwargs
+    ):
+        if not self.slug:
+            self.slug = self.title
+        return super().save(*args, **kwargs)
+
+
+
 

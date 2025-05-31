@@ -1,7 +1,11 @@
 from django.urls import path
 
-from home.views import HomeView
+from home.views import HomeView, CommentView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+
+    # Comments URL
+    path('comment/add', CommentView.as_view(), name='home'),
+    path('comment/remove/<int:pk>', CommentView.as_view(), name='home'),
 ]

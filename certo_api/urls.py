@@ -15,13 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.static import static
-# from django.contrib import admin
-from django.urls import path
+from django.contrib import admin
+from django.urls import path, include
 
 from certo_api.settings import DEBUG, MEDIA_URL, MEDIA_ROOT
 
 urlpatterns = [
-    #    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('api/home/', include('home.urls')),
 ]
 
 if DEBUG:

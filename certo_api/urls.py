@@ -23,6 +23,7 @@ from certo_api.settings import DEBUG, MEDIA_URL, MEDIA_ROOT
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/home/', include('home.urls')),
+    path('api/account/', include('account.urls')),
 ]
 
 if DEBUG:

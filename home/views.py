@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from home.models import Insights, HomeCommentModel, HomeHeaderModel
-from home.serializers import InsightSerializer, CommentSerializer, HomeHeaderSerializer
+from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel
+from home.serializers import InsightSerializer, CommentSerializer, HomeHeaderSerializer, SocialSerializer
 
 
 class HomeView(APIView):
@@ -18,13 +19,18 @@ class HomeView(APIView):
         serializer_comments = CommentSerializer(instance=model_comments, many=True)
 
         # Insights
-        models_insights = Insights.objects.all()
-        serializer_insights = InsightSerializer(instance=models_insights, many=True)
+        model_insights = Insights.objects.all()
+        serializer_insights = InsightSerializer(instance=model_insights, many=True)
+
+        # Socials
+        model_socials = SocialModel.objects.all()
+        serializer_socials = SocialSerializer(instance=model_socials, many=True)
 
         return Response({
             'home_header_model': serializer_home_header.data,
             'comments': serializer_comments.data,
-            'insights': serializer_insights.data
+            'insights': serializer_insights.data,
+            'socials': serializer_socials.data,
         }, status=status.HTTP_200_OK)
 
 
@@ -45,3 +51,17 @@ class CommentView(APIView):
         return Response({
             'message': 'Comment Deleted'
         }, status=status.HTTP_200_OK)
+
+
+class SocialView(APIView):
+    def put(self, request, pk):
+        social_instance = get_object_or_404(SocialModel, id=pk)
+
+        serializer_social = SocialSerializer(social_instance, data=request.data, partial=True)
+
+        if serializer_social.is_valid():
+            serializer_social.save()
+            return Response({
+                'message': 'Social Successfully Updated',
+            }, status=status.HTTP_200_OK)
+        return Response(serializer_social.errors, status=status.HTTP_400_BAD_REQUEST)

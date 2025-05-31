@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils.text import slugify
 
 
 class HomeHeaderModel(models.Model):
@@ -35,7 +36,7 @@ class Insights(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='insights/images/')
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.title
@@ -45,9 +46,13 @@ class Insights(models.Model):
             *args, **kwargs
     ):
         if not self.slug:
-            self.slug = self.title
+            self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
 
 
+class SocialModel(models.Model):
+    name = models.CharField(max_length=255)
+    link = models.CharField(max_length=255)
 
-
+    def __str__(self):
+        return self.name

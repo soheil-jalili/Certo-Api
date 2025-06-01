@@ -56,3 +56,20 @@ class SocialModel(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ApplicationLinks(models.Model):
+    name = models.CharField(max_length=255)
+    link = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class FreedomBackModel(models.Model):
+    image = models.ImageField(upload_to='freedom/images/')
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title

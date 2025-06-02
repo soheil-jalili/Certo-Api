@@ -58,7 +58,7 @@ class SocialModel(models.Model):
         return self.name
 
 
-class ApplicationLinks(models.Model):
+class ApplicationLinksModel(models.Model):
     name = models.CharField(max_length=255)
     link = models.CharField(max_length=255)
 

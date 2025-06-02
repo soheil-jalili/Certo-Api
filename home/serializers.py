@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel
+from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
+    ApplicationLinksModel
 
 
 class InsightSerializer(serializers.ModelSerializer):
@@ -27,4 +28,13 @@ class SocialSerializer(serializers.ModelSerializer):
         exclude = ['id']
 
 
+class ApplicationLinksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApplicationLinksModel
+        exclude = ['id']
 
+
+class FreedomBackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FreedomBackModel
+        fields = '__all__'

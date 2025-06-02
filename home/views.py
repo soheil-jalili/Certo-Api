@@ -4,8 +4,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel
-from home.serializers import InsightSerializer, CommentSerializer, HomeHeaderSerializer, SocialSerializer
+from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
+    ApplicationLinksModel
+from home.serializers import InsightSerializer, CommentSerializer, HomeHeaderSerializer, SocialSerializer, \
+    ApplicationLinksSerializer, FreedomBackSerializer
 
 
 class HomeView(APIView):
@@ -26,9 +28,19 @@ class HomeView(APIView):
         model_socials = SocialModel.objects.all()
         serializer_socials = SocialSerializer(instance=model_socials, many=True)
 
+        # Application Links
+        model_application = ApplicationLinksModel.objects.all()
+        serializer_application = ApplicationLinksSerializer(instance=model_application, many=True)
+
+        # FreedomBack
+        model_freedom = FreedomBackModel.objects.all()
+        serializer_socials = FreedomBackSerializer(instance=model_freedom, many=True)
+
         return Response({
             'home_header_model': serializer_home_header.data,
             'comments': serializer_comments.data,
+            'freedom': serializer_socials.data,
+            'application': serializer_application.data,
             'insights': serializer_insights.data,
             'socials': serializer_socials.data,
         }, status=status.HTTP_200_OK)

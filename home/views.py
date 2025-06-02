@@ -33,7 +33,7 @@ class HomeView(APIView):
         serializer_application = ApplicationLinksSerializer(instance=model_application, many=True)
 
         # FreedomBack
-        model_freedom = FreedomBackModel.objects.all()
+        model_freedom = FreedomBackModel.objects.all()[:6]
         serializer_socials = FreedomBackSerializer(instance=model_freedom, many=True)
 
         return Response({

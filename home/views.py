@@ -21,7 +21,7 @@ class HomeView(APIView):
         serializer_comments = CommentSerializer(instance=model_comments, many=True)
 
         # Insights
-        model_insights = Insights.objects.all()
+        model_insights = Insights.objects.all()[:3]
         serializer_insights = InsightSerializer(instance=model_insights, many=True)
 
         # Socials
@@ -77,3 +77,22 @@ class SocialView(APIView):
                 'message': 'Social Successfully Updated',
             }, status=status.HTTP_200_OK)
         return Response(serializer_social.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AllInsights(APIView):
+    def get(self, request):
+        model_insights = Insights.objects.all()
+        serializer_insights = InsightSerializer(instance=model_insights, many=True)
+
+        return Response({
+            'insights': serializer_insights.data,
+        })
+
+
+class InsightDetail(APIView):
+    def get(self, request, slug):
+        model_insights = Insights.objects.get(slug=slug)
+        serializer_insights = InsightSerializer(instance=model_insights)
+        return Response({
+            'insight': serializer_insights.data,
+        })

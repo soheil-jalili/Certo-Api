@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
+from home.models import InsightModel, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
     ApplicationLinksModel
 from home.serializers import InsightSerializer, CommentSerializer, HomeHeaderSerializer, SocialSerializer, \
     ApplicationLinksSerializer, FreedomBackSerializer
@@ -21,7 +23,7 @@ class HomeView(APIView):
         serializer_comments = CommentSerializer(instance=model_comments, many=True)
 
         # Insights
-        model_insights = Insights.objects.all()[:3]
+        model_insights = InsightModel.objects.all()[:3]
         serializer_insights = InsightSerializer(instance=model_insights, many=True)
 
         # Socials
@@ -81,7 +83,7 @@ class SocialView(APIView):
 
 class AllInsights(APIView):
     def get(self, request):
-        model_insights = Insights.objects.all()
+        model_insights = InsightModel.objects.all()
         serializer_insights = InsightSerializer(instance=model_insights, many=True)
 
         return Response({
@@ -91,8 +93,38 @@ class AllInsights(APIView):
 
 class InsightDetail(APIView):
     def get(self, request, slug):
-        model_insights = Insights.objects.get(slug=slug)
+        model_insights = InsightModel.objects.get(slug=slug)
         serializer_insights = InsightSerializer(instance=model_insights)
         return Response({
             'insight': serializer_insights.data,
         })
+
+
+class AddInsight(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        insights_serializer = InsightSerializer(data=request.data)
+        if insights_serializer.is_valid():
+            if request.user.is_authenticated:
+                insights_serializer.save(user=request.user)
+                return Response({
+                    'message': 'Insight Successfully Added',
+                }, status=201)
+            else:
+                return Response({
+                    'error': 'User is not authenticated',
+                }, status=403)
+
+        return Response({
+            'error': insights_serializer.errors,
+        }, status=400)
+
+
+class UpdateInsight(APIView):
+    pass
+
+
+class RemoveInsight(APIView):
+    pass

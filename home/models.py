@@ -31,7 +31,8 @@ class Badge(models.Model):
         return self.name
 
 
-class Insights(models.Model):
+class InsightModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='insights/images/')

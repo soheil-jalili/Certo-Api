@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from home.models import Insights, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
+from home.models import InsightModel, HomeCommentModel, HomeHeaderModel, SocialModel, FreedomBackModel, \
     ApplicationLinksModel
 
 
 class InsightSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Insights
+        model = InsightModel
         fields = '__all__'
 
 
